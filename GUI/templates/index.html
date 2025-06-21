@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Disease Detection</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e3f2fd;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background-image: linear-gradient(to right, #2196f3, #6ec6ff);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #1565c0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #64b5f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #42a5f5;
+            transform: translateY(-2px);
+        }
+
+        /* Prediction Section Styles */
+        .prediction-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border: 2px dashed #4caf50;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .prediction-result h2 {
+            color: #388e3c;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .prediction-result p {
+            margin: 5px 0;
+        }
+
+        /* Image Display Section */
+        .image-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 220px;
+            height: 220px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1565c0;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            main {
+                margin: 15px;
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Skin Disease Detection Using AI</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>About the Project</h2>
+        <p>
+            This web application leverages cutting-edge <strong>ResNet50 architecture</strong> to detect various skin diseases, 
+            including melanoma, carcinoma, and psoriasis. Simply upload an image of a skin lesion, and our AI-powered model will 
+            predict the most likely condition. Along with the prediction, the application provides a brief description and suggested treatment.
+        </p>
+
+        <!-- File Upload Form -->
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Predict</button>
+        </form>
+
+        <!-- Conditional Rendering: Prediction Results -->
+        {% if prediction %}
+        <div class="prediction-result">
+            <h2>Prediction: {{ prediction }}</h2>
+            <p><strong>Description:</strong> {{ description }}</p>
+            <p><strong>Cure:</strong> {{ cure }}</p>
+        </div>
+
+        <!-- Display Actual and Predicted Visualizations -->
+        <div class="image-section">
+            <!-- Uploaded Image -->
+            <div>
+                <h3>Uploaded Image</h3>
+                <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image">
+            </div>
+            <!-- Grad-CAM Visualization -->
+            <div>
+                <h3>Grad-CAM</h3>
+                <img src="{{ grad_cam_url }}" alt="Grad-CAM Visualization">
+            </div>
+            <!-- Saliency Map -->
+            <div>
+                <h3>Saliency Map</h3>
+                <img src="{{ saliency_map_url }}" alt="Saliency Map Visualization">
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p style="text-align: center; color: white; font-weight: bold;">&copy; 2024 UPES Project. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

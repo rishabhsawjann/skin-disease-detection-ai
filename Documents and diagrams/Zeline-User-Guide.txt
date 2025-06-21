@@ -1,0 +1,70 @@
+||-----------ZELINE PROJECT SERVICES - USER GUIDE--------------||
+
+
+About Zeline Projects:-
+Zeline Projects is a platform dedicated to helping students excel in academic and professional projects. It offers ready-made project templates across multiple technologies and domains, such as:
+
+#Software Development
+#IoT (Internet of Things)
+#Data Science and AI
+#Mobile and Web Development
+
+Purpose and Offerings:
+#Training Programs: Helps students and professionals develop skills through project-based learning.
+#Ready-Made Projects: Provides both free and paid projects for students to explore, learn, and implement for their academic needs.
+#Automation and Tools: Some projects involve automation, DevOps, cloud, and IoT-based solutions to reflect current industry standards.
+#Personalized Guidance: In some cases, platforms like these offer direct help, consulting, and mentorship to complete complex projects.
+#MarketPlace: Provides various deployment servers for very low costs, and SDKs toolkits to develop applications.
+
+Who Uses It?
+Students: For academic projects, assignments, and learning.
+Professionals: To expand knowledge or prototype ideas.
+Institutions: Often, platforms like Zeline Projects provide project kits that can be integrated into curriculums.
+Since you have built a range of projects for Zeline Projects, it shows your experience in training and empowering students with real-world problem-solving through these projects.
+
+||-----------------------------------------------------------------------------------------------------------------------------------||
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@Project Guide:@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+1. Install the requirenments.txt using, "pip install -r requirements.txt".
+
+2. To train the model from initial stage run following:-
+    ModelTrain\Stage1InitialTrainig.py
+    ModelTrain\Stage2ModelInhacement.py
+
+3. To further train the model accuracy, execute following:-
+    ModelTrain\EnhanceModelAccuracy.py
+
+4. to run the project in local termainal, run the following:-
+    OUTPUT\GetPrediction.py
+
+5. to run the project in GUI (with detailed description and remidies of disease.)
+    GUI\app.py
+
+6. In case of JSON, Model not working errors you can do troublehoot by running:-
+    OUTPUT\jsonTroubleshoot.py
+    OUTPUT\ModelVerification.py
+
+7. To check how the model is trained, go to logs folder and check logs and screemshots we have provided for training.
+
+@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ Model Acc: 86.5% @@@
+@@@@@@@@@@@@@@@@@@@@@@@@
+
+||------------------------------CONTACTS------------------------------------||
+
+Mail us: zelineprojectservices@gmail.com
+Mail us: zeline.labs@gmail.com
+
+Helpline number: 8824414850
+Web Querry: https://zelineprojects.shop
+Lab Team number: 7414021545 (ONLY Customers with active projects.) 
+Instagram: @zelineprojectservices
+
+For Finincial Issues:
+Mail us: finances.zeline@gmail.com
+
+
+THANKS FOR CHOOSING ZELINE PROJECTS!

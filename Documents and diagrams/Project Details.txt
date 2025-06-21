@@ -1,0 +1,99 @@
+
+Project Overview: Dermatological Disease Detection using ResNet50 and XAI
+
+How the Project Works:
+----------------------
+1. User Interaction:
+   - User uploads an image through a web interface (Flask).
+
+2. File Handling:
+   - Flask validates the file type and saves it in the upload directory.
+
+3. Model Prediction:
+   - The ResNet50 model processes the uploaded image, performs inference, and predicts the disease class.
+
+4. Explainability with XAI (Grad-CAM):
+   - XAI techniques, such as Grad-CAM, generate visual explanations to show which parts of the image influenced the model’s decision.
+
+5. Rendering Results:
+   - The app presents the prediction, disease description, and the visual explanation (e.g., heatmap) on a web page.
+
+
+ResNet50 in Depth:
+-------------------
+ResNet50 is a deep convolutional neural network with 50 layers that introduces residual learning to tackle the vanishing gradient problem.
+
+Architecture:
+1. Convolutional Layers: Extract low-level features like edges and textures.
+2. Residual Blocks: Adds the input directly to the output of deeper layers, avoiding vanishing gradients.
+3. Global Average Pooling (GAP): Converts feature maps into a single vector.
+4. Fully Connected Layer + Softmax: Outputs probabilities for each class.
+
+How ResNet50 is used in the Project:
+1. Pretrained Model: Uses ImageNet weights for feature extraction.
+2. Fine-tuning: Some layers are unfrozen to learn skin-specific patterns.
+3. Input Processing: Images are resized to 224x224 and normalized.
+
+Explainable AI (XAI) with Grad-CAM:
+------------------------------------
+Grad-CAM generates heatmaps to show which parts of the image were critical for the model's decision.
+
+How Grad-CAM Works:
+1. Gradient Calculation: Computes gradients of the class score with respect to feature maps.
+2. Weight Calculation: Averages gradients to get feature map importance.
+3. Heatmap Generation: Combines weighted feature maps through ReLU activation to generate the heatmap.
+
+Workflow Summary:
+-----------------
+1. User Uploads Image -> Image is resized and normalized.
+2. Prediction with ResNet50 -> Model outputs class probabilities.
+3. Grad-CAM Generates Explanation -> Heatmap shows important regions.
+4. Rendering Results -> Flask displays prediction, disease info, and visualization.
+
+Grad-CAM Code Example:
+----------------------
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+def grad_cam(model, img_array, last_conv_layer_name, pred_index=None):
+    grad_model = tf.keras.models.Model(
+        [model.inputs], [model.get_layer(last_conv_layer_name).output, model.output]
+    )
+
+    with tf.GradientTape() as tape:
+        conv_outputs, predictions = grad_model(img_array)
+        if pred_index is None:
+            pred_index = tf.argmax(predictions[0])
+        class_output = predictions[:, pred_index]
+
+    grads = tape.gradient(class_output, conv_outputs)
+    pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
+    conv_outputs = conv_outputs[0]
+
+    heatmap = tf.reduce_sum(tf.multiply(pooled_grads, conv_outputs), axis=-1)
+    heatmap = np.maximum(heatmap, 0) / np.max(heatmap)
+
+    return heatmap
+
+def display_grad_cam(image_path, heatmap):
+    img = tf.keras.preprocessing.image.load_img(image_path)
+    img = tf.keras.preprocessing.image.img_to_array(img)
+
+    heatmap = np.uint8(255 * heatmap)
+    heatmap = tf.keras.preprocessing.image.array_to_img(heatmap).resize((img.shape[1], img.shape[0]))
+
+    superimposed_img = tf.keras.preprocessing.image.array_to_img(
+        np.array(img * 0.6 + np.array(heatmap) * 0.4)
+    )
+
+    plt.imshow(superimposed_img)
+    plt.axis('off')
+    plt.show()
+
+# Usage Example:
+img_array = tf.keras.preprocessing.image.load_img('static/uploads/sample_image.jpg', target_size=(224, 224))
+img_array = np.expand_dims(img_array / 255.0, axis=0)
+
+heatmap = grad_cam(model, img_array, 'conv5_block3_out')
+display_grad_cam('static/uploads/sample_image.jpg', heatmap)
