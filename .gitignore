@@ -1,0 +1,13 @@
+# Environments
+.env
+.venv
+
+# Large files
+*.h5
+*.keras
+*.zip
+
+# OS & IDE
+.DS_Store
+.vscode/
+.idea/
